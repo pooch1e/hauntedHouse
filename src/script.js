@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Timer } from 'three/addons/misc/Timer.js';
+import { Sky } from 'three/examples/jsm/Addons.js';
 import GUI from 'lil-gui';
 
 /**
@@ -330,7 +331,7 @@ for (let i = 0; i < 30; i++) {
  * Lights
  */
 // Ambient light
-const ambientLight = new THREE.AmbientLight('#d55f5f', 0.275);
+const ambientLight = new THREE.AmbientLight('#d55f5f', 0.8);
 scene.add(ambientLight);
 
 // Directional light
@@ -400,6 +401,73 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+//SHADOWS
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
+
+// Directional light shadow setup
+directionalLight.castShadow = true;
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
+directionalLight.shadow.camera.near = 1;
+directionalLight.shadow.camera.far = 15;
+directionalLight.shadow.camera.top = 8;
+directionalLight.shadow.camera.right = 8;
+directionalLight.shadow.camera.bottom = -8;
+directionalLight.shadow.camera.left = -8;
+
+// Door light shadow setup
+doorLight.castShadow = true;
+doorLight.shadow.mapSize.width = 256;
+doorLight.shadow.mapSize.height = 256;
+doorLight.shadow.camera.near = 0.1;
+doorLight.shadow.camera.far = 10;
+
+// Ghost lights shadow setup
+ghost1.castShadow = true;
+ghost1.shadow.mapSize.width = 256;
+ghost1.shadow.mapSize.height = 256;
+ghost1.shadow.camera.near = 0.1;
+ghost1.shadow.camera.far = 10;
+
+ghost2.castShadow = true;
+ghost2.shadow.mapSize.width = 256;
+ghost2.shadow.mapSize.height = 256;
+ghost2.shadow.camera.near = 0.1;
+ghost2.shadow.camera.far = 10;
+
+ghost3.castShadow = true;
+ghost3.shadow.mapSize.width = 256;
+ghost3.shadow.mapSize.height = 256;
+ghost3.shadow.camera.near = 0.1;
+ghost3.shadow.camera.far = 10;
+
+floor.receiveShadow = true;
+walls.castShadow = true;
+walls.receiveShadow = true;
+roof.castShadow = true;
+roof.receiveShadow = true;
+
+for (let grave of gravesGroup.children) {
+  grave.castShadow = true;
+  grave.receiveShadow = true;
+}
+
+// SKY
+const skyVector = new THREE.Vector3(0.3, -0.038, -0.95);
+const sky = new Sky();
+sky.scale.set(100, 100, 100)
+scene.add(sky);
+sky.material.uniforms['turbidity'].value = 10;
+sky.material.uniforms['rayleigh'].value = 3;
+sky.material.uniforms['mieCoefficient'].value = 0.1;
+sky.material.uniforms['mieDirectionalG'].value = 0.95;
+sky.material.uniforms['sunPosition'].value.set(0.3, -0.038, -0.95);
+
+//FOG
+// scene.fog = new THREE.Fog('#ff0000', 10, 13)
+scene.fog = new THREE.FogExp2('#ece3e3',0.08)
 
 /**
  * Animate
