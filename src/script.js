@@ -23,6 +23,7 @@ const textureLoader = new THREE.TextureLoader();
 
 //FLOOR TEXTURE
 const floorAlpha = textureLoader.load('./floor/alpha.jpg');
+
 const floorColorTexture = textureLoader.load(
   './floor/coast_sand_rocks_02_1k/coast_land_rocks_01_diff_1k.jpg'
 );
@@ -55,6 +56,36 @@ const floorDisplacementTexture = textureLoader.load(
 floorDisplacementTexture.repeat.set(8, 8);
 floorDisplacementTexture.wrapS = THREE.RepeatWrapping;
 floorDisplacementTexture.wrapT = THREE.RepeatWrapping;
+
+// WALL TEXTURE
+const wallColorTexture = textureLoader.load(
+  './assets/wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.jpg'
+);
+
+const wallArmTexture = textureLoader.load(
+  './assets/wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.jpg'
+);
+
+const wallNormalTexture = textureLoader.load(
+  './assets/wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.jpg'
+);
+
+wallColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+// ROOF TEXTURE
+const roofColorTexture = textureLoader.load(
+  './assets/roof/roof_slates_02_1k/roof_slates_02_diff_1k.jpg'
+);
+
+const roofArmTexture = textureLoader.load(
+  './assets/roof/roof_slates_02_1k/roof_slates_02_arm_1k.jpg'
+);
+
+const roofNormalTexture = textureLoader.load(
+  './assets/roof/roof_slates_02_1k/roof_slates_02_nor_gl_1k.jpg'
+);
+
+roofColorTexture.colorSpace = THREE.SRGBColorSpace;
 
 /**
  * House
@@ -107,7 +138,13 @@ const walls = new THREE.Mesh(
     houseMeasurements.height,
     houseMeasurements.depth
   ),
-  new THREE.MeshStandardMaterial()
+  new THREE.MeshStandardMaterial({
+    map: wallColorTexture,
+    aoMap: wallArmTexture,
+    roughnessMap: wallArmTexture,
+    metalnessMap: wallArmTexture,
+    normalMap: wallNormalTexture,
+  })
 );
 walls.position.y = houseMeasurements.height / 2;
 house.add(walls);
