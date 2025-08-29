@@ -23,6 +23,38 @@ const textureLoader = new THREE.TextureLoader();
 
 //FLOOR TEXTURE
 const floorAlpha = textureLoader.load('./floor/alpha.jpg');
+const floorColorTexture = textureLoader.load(
+  './floor/coast_sand_rocks_02_1k/coast_land_rocks_01_diff_1k.jpg'
+);
+
+floorColorTexture.repeat.set(8, 8);
+floorColorTexture.wrapS = THREE.RepeatWrapping;
+floorColorTexture.wrapT = THREE.RepeatWrapping;
+floorColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+const floorARMTexture = textureLoader.load(
+  './floor/coast_sand_rocks_02_1k/coast_land_rocks_01_arm_1k.jpg'
+);
+
+floorARMTexture.repeat.set(8, 8);
+floorARMTexture.wrapS = THREE.RepeatWrapping;
+floorARMTexture.wrapT = THREE.RepeatWrapping;
+
+const floorNormalTexture = textureLoader.load(
+  './floor/coast_sand_rocks_02_1k/coast_land_rocks_01_nor_gl_1k.jpg'
+);
+
+floorNormalTexture.repeat.set(8, 8);
+floorNormalTexture.wrapS = THREE.RepeatWrapping;
+floorNormalTexture.wrapT = THREE.RepeatWrapping;
+
+const floorDisplacementTexture = textureLoader.load(
+  './floor/coast_sand_rocks_02_1k/coast_land_rocks_01_disp_1k.jpg'
+);
+
+floorDisplacementTexture.repeat.set(8, 8);
+floorDisplacementTexture.wrapS = THREE.RepeatWrapping;
+floorDisplacementTexture.wrapT = THREE.RepeatWrapping;
 
 /**
  * House
@@ -37,12 +69,31 @@ const houseMeasurements = {
 
 // FLOOR
 const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(20, 20, 1, 1),
-  new THREE.MeshStandardMaterial({ alphaMap: floorAlpha, transparent: true })
+  new THREE.PlaneGeometry(20, 20, 100, 100),
+  new THREE.MeshStandardMaterial({
+    alphaMap: floorAlpha,
+    transparent: true,
+    map: floorColorTexture,
+    aoMap: floorARMTexture,
+    roughnessMap: floorARMTexture,
+    roughness: floorARMTexture,
+    normalMap: floorNormalTexture,
+    displacementMap: floorDisplacementTexture,
+    displacementScale: 0.3,
+    displacementBias: -0.025,
+  })
 );
 
 floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
+
+gui
+  .add(floor.material, 'displacementScale')
+  .min(0)
+  .max(1)
+  .step(0.001)
+  .name('floor displacement scale');
+gui.add(floor.material, 'displacementBias').min(-1).max(1).step(0.001);
 
 // House Container
 const house = new THREE.Group();
