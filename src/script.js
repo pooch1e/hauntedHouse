@@ -91,7 +91,28 @@ bush4.scale.set(0.15, 0.15, 0.15);
 house.add(bush1, bush2, bush3, bush4);
 
 // GRAVES
+const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2);
+const graveMaterial = new THREE.MeshStandardMaterial();
 
+const gravesGroup = new THREE.Group();
+scene.add(gravesGroup);
+
+for (let i = 0; i < 30; i++) {
+  const angle = Math.random() * (Math.PI * 2);
+  const radius = 4 + Math.random() * 4;
+  //pos on circle according to this circle
+  // we use z for 3d coords, on 2d would be x and y
+  const x = Math.sin(angle) * radius;
+  const z = Math.cos(angle) * radius;
+
+  const grave = new THREE.Mesh(graveGeometry, graveMaterial);
+  grave.position.x = x;
+  grave.position.z = z;
+  grave.position.y = Math.random() * 0.4;
+  grave.rotation.x = Math.random() - 0.5;
+  grave.rotation.y = Math.random() - 0.5;
+  gravesGroup.add(grave);
+}
 
 /**
  * Lights
