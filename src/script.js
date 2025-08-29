@@ -330,13 +330,26 @@ for (let i = 0; i < 30; i++) {
  * Lights
  */
 // Ambient light
-const ambientLight = new THREE.AmbientLight('#ffffff', 0.5);
+const ambientLight = new THREE.AmbientLight('#d55f5f', 0.275);
 scene.add(ambientLight);
 
 // Directional light
-const directionalLight = new THREE.DirectionalLight('#ffffff', 1.5);
+const directionalLight = new THREE.DirectionalLight('#86cdff', 1);
 directionalLight.position.set(3, 2, -8);
 scene.add(directionalLight);
+
+// Door light
+const doorLight = new THREE.PointLight('#ff7d46', 5);
+house.add(doorLight);
+
+doorLight.position.set(0, 2.2, 2.5);
+
+//GHOSTS
+
+const ghost1 = new THREE.PointLight('#e3d5cf', 5);
+const ghost2 = new THREE.PointLight('#c0d3c6', 5);
+const ghost3 = new THREE.PointLight('#bdc2d1', 5);
+scene.add(ghost1, ghost2, ghost3);
 
 /**
  * Sizes
@@ -401,6 +414,17 @@ const tick = () => {
   // Update controls
   controls.update();
 
+  //Ghosts animate
+  const ghostAngle = elapsedTime / 2;
+  const radius = 8;
+  ghost1.position.x = Math.cos(ghostAngle + 1) * radius;
+  ghost1.position.z = Math.sin(ghostAngle + 1) * radius;
+
+  ghost2.position.x = Math.cos(ghostAngle + 5) * radius;
+  ghost2.position.z = Math.sin(ghostAngle + 5) * radius;
+
+  ghost3.position.x = -Math.cos(ghostAngle - 2) * radius;
+  ghost3.position.z = -Math.sin(ghostAngle - 2) * radius;
   // Render
   renderer.render(scene, camera);
 
