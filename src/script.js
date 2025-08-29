@@ -161,14 +161,6 @@ const doorNormalTexture = textureLoader.load('./assets/door/normal.webp');
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace;
 
-// doorColorTexture.repeat.set(3, 1);
-// doorArmTexture.repeat.set(3, 1);
-// doorNormalTexture.repeat.set(3, 1);
-
-// doorColorTexture.wrapS = THREE.RepeatWrapping;
-// doorArmTexture.wrapS = THREE.RepeatWrapping;
-// doorNormalTexture.wrapS = THREE.RepeatWrapping;
-
 /**
  * House
  */
@@ -457,7 +449,7 @@ for (let grave of gravesGroup.children) {
 // SKY
 const skyVector = new THREE.Vector3(0.3, -0.038, -0.95);
 const sky = new Sky();
-sky.scale.set(100, 100, 100)
+sky.scale.set(100, 100, 100);
 scene.add(sky);
 sky.material.uniforms['turbidity'].value = 10;
 sky.material.uniforms['rayleigh'].value = 3;
@@ -467,7 +459,7 @@ sky.material.uniforms['sunPosition'].value.set(0.3, -0.038, -0.95);
 
 //FOG
 // scene.fog = new THREE.Fog('#ff0000', 10, 13)
-scene.fog = new THREE.FogExp2('#ece3e3',0.08)
+scene.fog = new THREE.FogExp2('#ece3e3', 0.08);
 
 /**
  * Animate
